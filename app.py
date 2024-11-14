@@ -6,7 +6,7 @@ from flask import Flask, render_template
 #-----------------------
 # 匯入各個服務藍圖
 #-----------------------
-from services.product.app import product_bp
+from services.drinks.app import drinks_bp
 
 #-------------------------
 # 產生主程式, 加入主畫面
@@ -21,7 +21,7 @@ def index():
 #-------------------------
 # 在主程式註冊各個服務
 #-------------------------
-app.register_blueprint(product_bp, url_prefix='/product')
+app.register_blueprint(drinks_bp, url_prefix='/drinks')
 
 #-------------------------
 # 啟動主程式
