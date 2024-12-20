@@ -30,9 +30,9 @@ app.use(session({
     },
 }));
 
-// // 使用 Passport 中間件
-// app.use(passport.initialize());
-// app.use(passport.session());
+// 使用 Passport 中間件
+app.use(passport.initialize());
+app.use(passport.session());
 
 // API 路由
 app.use('/api/auth', authRoutes);  // 認證相關路由
