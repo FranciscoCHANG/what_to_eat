@@ -16,17 +16,17 @@ export default function Home() {
 
   const handleGoogleLogin = () => {
     // 將這個URL發送給前端，用戶點擊後將重定向到Google登入頁面
-    window.location.href = 'http://localhost:5000/google';
+    window.location.href = 'http://localhost:5000/api/auth/google';
   };
 
   const handleFacebookLogin = () => {
     // 將這個URL發送給前端，用戶點擊後將重定向到Google登入頁面
-    window.location.href = 'http://localhost:5000/facebook';
+    window.location.href = 'http://localhost:5000/api/auth/facebook';
   };
 
   const handleLineLogin = () => {
     // 將這個URL發送給前端，用戶點擊後將重定向到Google登入頁面
-    window.location.href = 'http://localhost:5000/line';
+    window.location.href = 'http://localhost:5000/api/auth/line';
   };
 
   return (

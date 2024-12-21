@@ -1,5 +1,4 @@
 const express = require("express");
-const passport = require("passport");
 const router = express.Router();
 
 // 導入 Google、LINE、Facebook 的認證邏輯
