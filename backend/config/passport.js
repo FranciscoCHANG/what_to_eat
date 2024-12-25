@@ -2,6 +2,7 @@ const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
 const LineStrategy = require("passport-line").Strategy;
+const axios = require("axios");
 const User = require("../models/User");
 
 // 通用驗證邏輯
@@ -90,7 +91,6 @@ passport.use(
 
 // 函數：使用 Access Token 取得 LINE 的 email 資料
 async function getLineUserEmail(accessToken) {
-    const axios = require("axios");
     try {
         const response = await axios.get("https://api.line.me/oauth2/v2.1/verify", {
             headers: {
