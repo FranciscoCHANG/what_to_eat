@@ -3,7 +3,11 @@ const express = require('express');
 const session = require('express-session');
 const cors = require('cors');
 const passport = require('./config/passport');
+
+// routes
 const authRoutes = require('./routes/auth');
+const store = require('./routes/store');
+const menu = require('./routes/menu');
 
 const app = express();
 
@@ -36,6 +40,8 @@ app.use(passport.session());
 
 // API 路由
 app.use('/api/auth', authRoutes);  // 認證相關路由
+app.use('/api/store', store);  // 店家相關路由
+app.use('/api/menu', menu);  // 菜單相關路由
 
 // 404 錯誤處理
 app.use((req, res, next) => {
