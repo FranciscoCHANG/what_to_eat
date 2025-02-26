@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
 });
 
 // 取得特定店家
-router.get("/", async (req, res) => {
+router.get("/search", async (req, res) => {
   try {
     const store = await StoreService.getStoreByName(req.body.store_name);
     if (!store) return res.status(404).json({ message: "Store not found" });

@@ -6,30 +6,30 @@ const Menu = {
     return rows;
   },
 
-  async getMenuByStoreId(storeId) {
-    const [rows] = await pool.query("SELECT * FROM menus WHERE store_id = ?", [storeId]);
+  async getMenuByStoreNo(storeNo) {
+    const [rows] = await pool.query("SELECT * FROM menu_items WHERE store_no = ?", [storeNo]);
     if (rows.length === 0) return null;
 
-    const [items] = await pool.query("SELECT * FROM menu_items WHERE menu_id = ?", [rows[0].id]);
+    const [items] = await pool.query("SELECT * FROM menu_items WHERE item_no = ?", [rows[0].No]);
     return { ...rows[0], items };
   },
 
-  async addMenu(storeId, storeName) {
-    const [result] = await pool.query("INSERT INTO menus (store_id, store_name) VALUES (?, ?)", [storeId, storeName]);
-    return result.insertId;
+  async addMenu(storeNo, storeName) {
+    const [result] = await pool.query("INSERT INTO menu_items (store_no, store_name) VALUES (?, ?)", [storeNo, storeName]);
+    return result.insertNo;
   },
 
-  async addMenuItem(menuId, name, price) {
-    const [result] = await pool.query("INSERT INTO menu_items (menu_id, name, price) VALUES (?, ?, ?)", [menuId, name, price]);
-    return result.insertId;
+  async addMenuItem(menuNo, name, price) {
+    const [result] = await pool.query("INSERT INTO menu_items (item_no, name, price) VALUES (?, ?, ?)", [menuNo, name, price]);
+    return result.insertNo;
   },
 
-  async updateMenuItem(itemId, name, price) {
-    await pool.query("UPDATE menu_items SET name = ?, price = ? WHERE id = ?", [name, price, itemId]);
+  async updateMenuItem(itemNo, name, price) {
+    await pool.query("UPDATE menu_items SET name = ?, price = ? WHERE No = ?", [name, price, itemNo]);
   },
 
-  async deleteMenuItem(itemId) {
-    await pool.query("DELETE FROM menu_items WHERE id = ?", [itemId]);
+  async deleteMenuItem(itemNo) {
+    await pool.query("DELETE FROM menu_items WHERE No = ?", [itemNo]);
   }
 };
 

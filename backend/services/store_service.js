@@ -5,8 +5,8 @@ const StoreService = {
     return await Store.getAllStores();
   },
 
-  async getStoreById(storeId) {
-    return await Store.getStoreById(storeId);
+  async getStoreByName(storeName) {
+    return await Store.getStoreByName(storeName);
   },
 
   async addStore(name, address) {

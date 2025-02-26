@@ -6,10 +6,26 @@ const Store = {
     return rows;
   },
 
-  async getStoreByName(store_name) {
-    const [rows] = await pool.query("SELECT * FROM stores WHERE store_name LIKE ?", [`%${store_name}%`]);
-    return rows[0] || null;
-  },
+  async getStoreByName(storeName) {
+      // 拆分關鍵字，並去除空白字符
+      const keywords = storeName.split('').map(word => word.trim()).filter(word => word);
+    
+      // 構建 SQL 查詢，為每個關鍵字創建 LIKE 條件
+      let query = "SELECT * FROM stores WHERE ";
+      const conditions = keywords.map(keyword => {
+        return "store_name LIKE ?";
+      });
+      
+      query += conditions.join(" AND ");
+    
+      // 傳入查詢條件，並且對每個條件進行 %包裝
+      const values = keywords.map(keyword => `%${keyword}%`);
+    
+      // 執行查詢
+      const [rows] = await pool.query(query, values);
+      return rows;
+    },
+  
 
   async addStore(name, address) {
     const [result] = await pool.query("INSERT INTO stores (name, address) VALUES (?, ?)", [name, address]);
