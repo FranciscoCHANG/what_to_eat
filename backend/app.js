@@ -8,6 +8,7 @@ const passport = require('./config/passport');
 const authRoutes = require('./routes/auth');
 const store = require('./routes/store');
 const menu = require('./routes/menu');
+const StoreHour = require('./routes/store_hour');
 
 const app = express();
 
@@ -41,6 +42,7 @@ app.use(passport.session());
 // API 路由
 app.use('/api/auth', authRoutes);  // 認證相關路由
 app.use('/api/store', store);  // 店家相關路由
+app.use('/api/store_hour', StoreHour);  // 店家營業時間相關路由
 app.use('/api/menu', menu);  // 菜單相關路由
 
 // 404 錯誤處理

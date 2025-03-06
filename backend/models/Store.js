@@ -1,5 +1,4 @@
 const pool = require("../config/db");
-const { closeStore } = require("../services/store_service");
 
 const Store = {
   // search all
@@ -41,7 +40,7 @@ const Store = {
   },
   
   // update
-  async updateStore(store_no, store_name, type, branch, address, phone, social_media_links, descriptions) {
+  async updateStore(store_no, store_name, type, branch, address, phone, social_media_links, descriptions, status) {
     const [result] = await pool.query(
       `UPDATE stores 
        SET store_name = COALESCE(?, store_name), 
@@ -50,23 +49,15 @@ const Store = {
            address = COALESCE(?, address), 
            phone = COALESCE(?, phone), 
            social_media_links = COALESCE(?, social_media_links), 
-           descriptions = COALESCE(?, descriptions), 
+           descriptions = COALESCE(?, descriptions),
+           status = COALESCE(?, status) 
            update_at = NOW()
        WHERE store_no = ?`,
-      [store_name, type, branch, address, phone, social_media_links, descriptions, store_no]
+      [store_name, type, branch, address, phone, social_media_links, descriptions, status, store_no]
     );
     return result;
   },
 
-  async closeStore(store_no){
-    const [result] = await pool.query("UPDATE stores SET status = 'closed' WHERE store_no = ?", [store_no]);
-    return result;
-  },
-
-  async reopenStore(store_no){
-    const [result] = await pool.query("UPDATE stores SET status = 'open' WHERE store_no = ?", [store_no]);
-    return result;
-  },
 };
 
 module.exports = Store;

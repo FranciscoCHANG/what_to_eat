@@ -17,13 +17,6 @@ const StoreService = {
     return await Store.updateStore(store_no, store_name, type, branch, address, phone, social_media_links, descriptions)
   },
 
-  async closeStore(store_no) {
-    return await Store.closeStore(store_no)
-  },
-
-  async reopenStore(store_no) {
-    return await Store.reopenStore(store_no)
-  }
 };
 
 module.exports = StoreService;

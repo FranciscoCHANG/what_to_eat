@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app",
-    "dev": "nodemon app"
-  },
+  "prestart": "npx kill-port 5000",
+  "start": "node app.js",
+  "dev": "npx kill-port 5000 && nodemon app.js"
+  }
+  ,
   "author": "",
   "license": "ISC",
   "description": "",
