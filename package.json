@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "@types/parse-json": "^4.0.2"
+  }
+}
