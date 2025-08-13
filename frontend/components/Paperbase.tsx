@@ -11,7 +11,7 @@ import Header from './Header';
 
 function Copyright() {
   return (
-    <Typography variant="body2" align="center" sx={{ color: 'text.secondary' }}>
+    <Typography variant="body2" sx={{ color: 'text.secondary', textAlign: 'center' }}>
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
         Your Website
