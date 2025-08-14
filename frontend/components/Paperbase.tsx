@@ -6,60 +6,128 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import Navigator from './Navigator';
-import Content from './Content';
 import Header from './Header';
+
+// 導入頁面元件
+import StoreList from './dashboard/StoreList';
+import MenuManagement from './dashboard/MenuManagement';
+import BusinessHours from './dashboard/BusinessHours';
+import UserManagement from './dashboard/UserManagement';
+import DataAnalytics from './dashboard/DataAnalytics';
+import SystemSettings from './dashboard/SystemSettings';
+import RecommendationSystem from './dashboard/RecommendationSystem';
+import ProjectOverview from './dashboard/ProjectOverview';
 
 function Copyright() {
   return (
     <Typography variant="body2" sx={{ color: 'text.secondary', textAlign: 'center' }}>
-      {'Copyright © '}
+      {'版權所有 © '}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        您的網站
       </Link>{' '}
       {new Date().getFullYear()}.
     </Typography>
   );
 }
 
-let theme = createTheme({
+const theme = createTheme({
   palette: {
     primary: {
-      light: '#63ccff',
-      main: '#009be5',
-      dark: '#006db3',
+      light: '#FFE0B2',
+      main: '#FF9800',
+      dark: '#F57C00',
+    },
+    secondary: {
+      light: '#FFCCBC',
+      main: '#FF5722',
+      dark: '#E64A19',
+    },
+    success: {
+      light: '#C8E6C9',
+      main: '#4CAF50',
+      dark: '#388E3C',
+    },
+    warning: {
+      light: '#FFE082',
+      main: '#FFC107',
+      dark: '#FFA000',
+    },
+    info: {
+      light: '#B3E5FC',
+      main: '#03A9F4',
+      dark: '#0288D1',
+    },
+    background: {
+      default: '#FFF8F0',
+      paper: '#FFFFFF',
+    },
+    text: {
+      primary: '#3E2723',
+      secondary: '#8D6E63',
+    },
+    grey: {
+      50: '#FFF8F0',
+      100: '#FFECB3',
+      200: '#FFE082',
+      300: '#FFD54F',
+      400: '#FFCA28',
+      500: '#FFC107',
+      600: '#FFB300',
+      700: '#FFA000',
+      800: '#FF8F00',
+      900: '#FF6F00',
     },
   },
   typography: {
+    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+    h4: {
+      fontWeight: 600,
+      fontSize: '1.75rem',
+      lineHeight: 1.4,
+      letterSpacing: '-0.02em',
+    },
     h5: {
-      fontWeight: 500,
-      fontSize: 26,
-      letterSpacing: 0.5,
+      fontWeight: 600,
+      fontSize: '1.5rem',
+      lineHeight: 1.4,
+      letterSpacing: '-0.01em',
+    },
+    h6: {
+      fontWeight: 600,
+      fontSize: '1.25rem',
+      lineHeight: 1.4,
+    },
+    body1: {
+      fontSize: '1rem',
+      lineHeight: 1.6,
+    },
+    body2: {
+      fontSize: '0.875rem',
+      lineHeight: 1.6,
     },
   },
   shape: {
-    borderRadius: 8,
+    borderRadius: 12,
   },
   components: {
-    MuiTab: {
-      defaultProps: {
-        disableRipple: true,
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          boxShadow: '0 2px 8px rgba(255, 152, 0, 0.08)',
+          border: '1px solid rgba(255, 152, 0, 0.04)',
+          transition: 'all 0.2s ease-in-out',
+          '&:hover': {
+            boxShadow: '0 4px 16px rgba(255, 152, 0, 0.12)',
+            transform: 'translateY(-2px)',
+          },
+        },
       },
     },
-  },
-  mixins: {
-    toolbar: {
-      minHeight: 48,
-    },
-  },
-});
-
-theme = {
-  ...theme,
-  components: {
-    MuiDrawer: {
+    MuiPaper: {
       styleOverrides: {
-        paper: {
-          backgroundColor: '#081627',
+        root: {
+          boxShadow: '0 2px 8px rgba(255, 152, 0, 0.08)',
+          border: '1px solid rgba(255, 152, 0, 0.04)',
         },
       },
     },
@@ -67,25 +135,24 @@ theme = {
       styleOverrides: {
         root: {
           textTransform: 'none',
+          fontWeight: 500,
+          borderRadius: 8,
+          padding: '8px 16px',
+          transition: 'all 0.2s ease-in-out',
         },
         contained: {
-          boxShadow: 'none',
-          '&:active': {
-            boxShadow: 'none',
+          boxShadow: '0 2px 4px rgba(255, 152, 0, 0.3)',
+          '&:hover': {
+            boxShadow: '0 4px 8px rgba(255, 152, 0, 0.4)',
+            transform: 'translateY(-1px)',
           },
         },
-      },
-    },
-    MuiTabs: {
-      styleOverrides: {
-        root: {
-          marginLeft: theme.spacing(1),
-        },
-        indicator: {
-          height: 3,
-          borderTopLeftRadius: 3,
-          borderTopRightRadius: 3,
-          backgroundColor: theme.palette.common.white,
+        outlined: {
+          borderWidth: '1.5px',
+          '&:hover': {
+            borderWidth: '2px',
+            transform: 'translateY(-1px)',
+          },
         },
       },
     },
@@ -93,85 +160,165 @@ theme = {
       styleOverrides: {
         root: {
           textTransform: 'none',
-          margin: '0 16px',
-          minWidth: 0,
-          padding: 0,
-          [theme.breakpoints.up('md')]: {
-            padding: 0,
-            minWidth: 0,
+          fontWeight: 500,
+          fontSize: '0.875rem',
+          minHeight: 48,
+          padding: '12px 20px',
+          borderRadius: '8px 8px 0 0',
+          transition: 'all 0.2s ease-in-out',
+          '&.Mui-selected': {
+            backgroundColor: 'rgba(255, 152, 0, 0.08)',
+            color: '#F57C00',
+          },
+          '&:hover': {
+            backgroundColor: 'rgba(255, 152, 0, 0.04)',
           },
         },
       },
     },
-    MuiIconButton: {
+    MuiTabs: {
       styleOverrides: {
         root: {
-          padding: theme.spacing(1),
+          backgroundColor: '#FFF8F0',
+          borderRadius: '12px 12px 0 0',
+          padding: '8px 8px 0 8px',
+          '& .MuiTabs-indicator': {
+            backgroundColor: '#FF9800',
+            height: 3,
+            borderRadius: '3px 3px 0 0',
+          },
         },
       },
     },
-    MuiTooltip: {
+    MuiAppBar: {
       styleOverrides: {
-        tooltip: {
-          borderRadius: 4,
+        root: {
+          backgroundColor: '#FFFFFF',
+          color: '#3E2723',
+          boxShadow: '0 1px 3px rgba(255, 152, 0, 0.08)',
         },
       },
     },
-    MuiDivider: {
+    MuiToolbar: {
       styleOverrides: {
         root: {
-          backgroundColor: 'rgb(255,255,255,0.15)',
+          minHeight: 64,
+        },
+      },
+    },
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: '#FFFFFF',
+          borderRight: '1px solid rgba(255, 152, 0, 0.08)',
+          boxShadow: '2px 0 8px rgba(255, 152, 0, 0.08)',
         },
       },
     },
     MuiListItemButton: {
       styleOverrides: {
         root: {
+          borderRadius: 8,
+          margin: '2px 8px',
+          transition: 'all 0.2s ease-in-out',
           '&.Mui-selected': {
-            color: '#4fc3f7',
+            backgroundColor: 'rgba(255, 152, 0, 0.08)',
+            color: '#F57C00',
+            '&:hover': {
+              backgroundColor: 'rgba(255, 152, 0, 0.12)',
+            },
           },
-        },
-      },
-    },
-    MuiListItemText: {
-      styleOverrides: {
-        primary: {
-          fontSize: 14,
-          fontWeight: theme.typography.fontWeightMedium,
+          '&:hover': {
+            backgroundColor: 'rgba(255, 152, 0, 0.04)',
+          },
         },
       },
     },
     MuiListItemIcon: {
       styleOverrides: {
         root: {
+          minWidth: 40,
           color: 'inherit',
-          minWidth: 'auto',
-          marginRight: theme.spacing(2),
-          '& svg': {
-            fontSize: 20,
-          },
+        },
+      },
+    },
+    MuiChip: {
+      styleOverrides: {
+        root: {
+          borderRadius: 16,
+          fontWeight: 500,
+        },
+        outlined: {
+          borderWidth: '1.5px',
+        },
+      },
+    },
+    MuiLinearProgress: {
+      styleOverrides: {
+        root: {
+          borderRadius: 4,
+          backgroundColor: '#FFE082',
+        },
+        bar: {
+          borderRadius: 4,
         },
       },
     },
     MuiAvatar: {
       styleOverrides: {
         root: {
-          width: 32,
-          height: 32,
+          fontWeight: 600,
         },
       },
     },
   },
-};
+  spacing: 8,
+});
 
 const drawerWidth = 256;
 
 export default function Paperbase() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [currentSection, setCurrentSection] = React.useState('專案概覽');
+  const [currentTab, setCurrentTab] = React.useState(0);
   const isSmUp = useMediaQuery(theme.breakpoints.up('sm'));
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+
+  const handleNavigate = (section: string) => {
+    setCurrentSection(section);
+    setCurrentTab(0); // 重置標籤頁
+    console.log(`切換到: ${section}`);
+  };
+
+  const handleTabChange = (tabValue: number) => {
+    setCurrentTab(tabValue);
+    console.log(`標籤頁切換到: ${tabValue}`);
+  };
+
+  const renderContent = () => {
+    switch (currentSection) {
+      case '店家列表':
+        return <StoreList currentTab={currentTab} />;
+      case '菜單管理':
+        return <MenuManagement currentTab={currentTab} />;
+      case '營業時間':
+        return <BusinessHours currentTab={currentTab} />;
+      case '使用者管理':
+        return <UserManagement currentTab={currentTab} />;
+      case '資料分析':
+        return <DataAnalytics currentTab={currentTab} />;
+      case '系統設定':
+        return <SystemSettings currentTab={currentTab} />;
+      case '推薦系統':
+        return <RecommendationSystem currentTab={currentTab} />;
+      case '專案概覽':
+        return <ProjectOverview currentTab={currentTab} />;
+      default:
+        return <StoreList currentTab={currentTab} />;
+    }
   };
 
   return (
@@ -188,19 +335,27 @@ export default function Paperbase() {
               variant="temporary"
               open={mobileOpen}
               onClose={handleDrawerToggle}
+              onNavigate={handleNavigate}
             />
           )}
           <Navigator
             PaperProps={{ style: { width: drawerWidth } }}
             sx={{ display: { sm: 'block', xs: 'none' } }}
+            onNavigate={handleNavigate}
           />
         </Box>
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-          <Header onDrawerToggle={handleDrawerToggle} />
-          <Box component="main" sx={{ flex: 1, py: 6, px: 4, bgcolor: '#eaeff1' }}>
-            <Content />
+          <Header 
+            onDrawerToggle={handleDrawerToggle} 
+            currentSection={currentSection} 
+            onNavigate={handleNavigate}
+            onTabChange={handleTabChange}
+            currentTab={currentTab}
+          />
+          <Box component="main" sx={{ flex: 1, py: 4, px: 3, bgcolor: '#FFF8F0' }}>
+            {renderContent()}
           </Box>
-          <Box component="footer" sx={{ p: 2, bgcolor: '#eaeff1' }}>
+          <Box component="footer" sx={{ p: 3, bgcolor: '#FFFFFF', borderTop: '1px solid rgba(255, 152, 0, 0.08)' }}>
             <Copyright />
           </Box>
         </Box>

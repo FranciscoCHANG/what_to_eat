@@ -9,88 +9,154 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import HomeIcon from '@mui/icons-material/Home';
 import PeopleIcon from '@mui/icons-material/People';
-import DnsRoundedIcon from '@mui/icons-material/DnsRounded';
-import PermMediaOutlinedIcon from '@mui/icons-material/PhotoSizeSelectActual';
-import PublicIcon from '@mui/icons-material/Public';
-import SettingsEthernetIcon from '@mui/icons-material/SettingsEthernet';
-import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputComponent';
-import TimerIcon from '@mui/icons-material/Timer';
+import StoreIcon from '@mui/icons-material/Store';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import SettingsIcon from '@mui/icons-material/Settings';
-import PhonelinkSetupIcon from '@mui/icons-material/PhonelinkSetup';
+import AnalyticsIcon from '@mui/icons-material/Analytics';
+import RestaurantIcon from '@mui/icons-material/Restaurant';
+import Typography from '@mui/material/Typography';
 
 const categories = [
   {
-    id: 'Build',
+    id: '餐廳管理',
     children: [
       {
-        id: 'Authentication',
-        icon: <PeopleIcon />,
+        id: '店家列表',
+        icon: <StoreIcon />,
         active: true,
       },
-      { id: 'Database', icon: <DnsRoundedIcon /> },
-      { id: 'Storage', icon: <PermMediaOutlinedIcon /> },
-      { id: 'Hosting', icon: <PublicIcon /> },
-      { id: 'Functions', icon: <SettingsEthernetIcon /> },
-      {
-        id: 'Machine learning',
-        icon: <SettingsInputComponentIcon />,
-      },
+      { id: '菜單管理', icon: <MenuBookIcon /> },
+      { id: '營業時間', icon: <AccessTimeIcon /> },
+      { id: '使用者管理', icon: <PeopleIcon /> },
     ],
   },
   {
-    id: 'Quality',
+    id: '系統功能',
     children: [
-      { id: 'Analytics', icon: <SettingsIcon /> },
-      { id: 'Performance', icon: <TimerIcon /> },
-      { id: 'Test Lab', icon: <PhonelinkSetupIcon /> },
+      { id: '資料分析', icon: <AnalyticsIcon /> },
+      { id: '系統設定', icon: <SettingsIcon /> },
+      { id: '推薦系統', icon: <RestaurantIcon /> },
     ],
   },
 ];
 
 const item = {
-  py: '2px',
+  py: '8px',
   px: 3,
-  color: 'rgba(255, 255, 255, 0.7)',
+  color: '#8D6E63',
+  borderRadius: 2,
   '&:hover, &:focus': {
-    bgcolor: 'rgba(255, 255, 255, 0.08)',
+    bgcolor: 'rgba(255, 152, 0, 0.08)',
+    color: '#F57C00',
   },
 };
 
 const itemCategory = {
-  boxShadow: '0 -1px 0 rgb(255,255,255,0.1) inset',
-  py: 1.5,
+  boxShadow: '0 -1px 0 rgba(255, 152, 0, 0.08) inset',
+  py: 2,
   px: 3,
+  color: '#5D4037',
+  fontWeight: 600,
+  fontSize: '0.875rem',
+  textTransform: 'uppercase',
+  letterSpacing: '0.5px',
 };
 
-export default function Navigator(props: DrawerProps) {
-  const { ...other } = props;
+const brandItem = {
+  py: 3,
+  px: 3,
+  color: '#F57C00',
+  fontWeight: 700,
+  fontSize: '1.5rem',
+  letterSpacing: '-0.02em',
+  marginBottom: 2,
+};
+
+interface NavigatorProps extends DrawerProps {
+  onNavigate?: (section: string) => void;
+}
+
+export default function Navigator(props: NavigatorProps) {
+  const { onNavigate, ...other } = props;
+  const [selectedItem, setSelectedItem] = React.useState('專案概覽');
+
+  const handleItemClick = (itemId: string) => {
+    setSelectedItem(itemId);
+    console.log(`導航到: ${itemId}`);
+    
+    if (onNavigate) {
+      onNavigate(itemId);
+    }
+  };
 
   return (
     <Drawer variant="permanent" {...other}>
       <List disablePadding>
-        <ListItem sx={{ ...item, ...itemCategory, fontSize: 22, color: '#fff' }}>
-          Paperbase
+        <ListItem sx={{ ...item, ...brandItem }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <RestaurantIcon sx={{ fontSize: 28, color: 'inherit' }} />
+            <Typography variant="h6" component="span">
+              What to Eat
+            </Typography>
+          </Box>
         </ListItem>
-        <ListItem sx={{ ...item, ...itemCategory }}>
-          <ListItemIcon>
-            <HomeIcon />
-          </ListItemIcon>
-          <ListItemText>Project Overview</ListItemText>
+        <ListItem disablePadding>
+          <ListItemButton
+            sx={{
+              ...item,
+              ...itemCategory,
+            }}
+            selected={selectedItem === '專案概覽'}
+            onClick={() => handleItemClick('專案概覽')}
+          >
+            <ListItemIcon>
+              <HomeIcon sx={{ color: selectedItem === '專案概覽' ? '#F57C00' : 'inherit' }} />
+            </ListItemIcon>
+            <ListItemText 
+              primary="專案概覽"
+              primaryTypographyProps={{
+                fontWeight: selectedItem === '專案概覽' ? 600 : 400,
+              }}
+            />
+          </ListItemButton>
         </ListItem>
         {categories.map(({ id, children }) => (
-          <Box key={id} sx={{ bgcolor: '#101F33' }}>
-            <ListItem sx={{ py: 2, px: 3 }}>
-              <ListItemText sx={{ color: '#fff' }}>{id}</ListItemText>
+          <Box key={id}>
+            <ListItem
+              sx={{
+                ...itemCategory,
+                cursor: 'default',
+                '&:hover': {
+                  bgcolor: 'transparent',
+                },
+              }}
+            >
+              <ListItemText primary={id} />
             </ListItem>
-            {children.map(({ id: childId, icon, active }) => (
+            {children.map(({ id: childId, icon }) => (
               <ListItem disablePadding key={childId}>
-                <ListItemButton selected={active} sx={item}>
-                  <ListItemIcon>{icon}</ListItemIcon>
-                  <ListItemText>{childId}</ListItemText>
+                <ListItemButton
+                  sx={{
+                    ...item,
+                    pl: 4,
+                  }}
+                  selected={selectedItem === childId}
+                  onClick={() => handleItemClick(childId)}
+                >
+                  <ListItemIcon sx={{ color: selectedItem === childId ? '#F57C00' : 'inherit' }}>
+                    {icon}
+                  </ListItemIcon>
+                  <ListItemText 
+                    primary={childId} 
+                    primaryTypographyProps={{
+                      fontWeight: selectedItem === childId ? 600 : 400,
+                    }}
+                  />
                 </ListItemButton>
               </ListItem>
             ))}
-            <Divider sx={{ mt: 2 }} />
+            <Divider sx={{ mt: 1, mb: 1, opacity: 0.3 }} />
           </Box>
         ))}
       </List>

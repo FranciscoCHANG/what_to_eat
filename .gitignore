@@ -1,1 +1,23 @@
-﻿backend/.env
+﻿@@ -1,1 +1,21 @@
+backend/.env
+# 環境變數檔案
+.env
+.env.local
+.env.development
+.env.production
+backend/.env
+frontend/.env
+
+#允許範本檔案
+!.env.example
+!backend/.env.example
+!frontend/.env.example
+
+#其他常見忽略檔案
+node_modules/
+.DS_Store
+*.log
+dist/
+build/
+.next/
+out/
