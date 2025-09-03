@@ -21,11 +21,12 @@ async function handleAuthentication(provider, provider_id, profile, done) {
                     email || null,
                     profile.photos?.[0]?.value || null
                 );
-                user = { no: user_no, displayName: profile.displayName, email };
+                user = { user_no, displayName: profile.displayName, email };
             }
             // 新增第三方驗證記錄
-            if (user.user_no) {
-                await User.linkProviderToUser(user.user_no, provider, provider_id);
+            const normalizedUserNo = user.user_no ?? user.no;
+            if (normalizedUserNo) {
+                await User.linkProviderToUser(normalizedUserNo, provider, provider_id);
             } else {
                 throw new Error("Failed to create or find user_no");
             }        
@@ -110,11 +111,12 @@ async function getLineUserEmail(accessToken) {
 
 // 序列化用戶到 session
 passport.serializeUser((user, done) => {
-    if (!user || !user.user_no) {
+    const normalizedUserNo = user?.user_no ?? user?.no;
+    if (!normalizedUserNo) {
         // 確保用戶數據有必要的屬性
         return done(new Error("User data is invalid during serialization."));
     }
-    done(null, user.user_no); // 存入 user_no 作為 session 的標識
+    done(null, normalizedUserNo); // 存入 user_no 作為 session 的標識
 });
 
 // 從 session 中反序列化用戶

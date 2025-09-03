@@ -5,6 +5,10 @@ const FacebookStrategy = require("passport-facebook").Strategy;
 exports.login = passport.authenticate("facebook", { scope: ["email"] });
 
 // Facebook 登入回調處理
-exports.callback = passport.authenticate("facebook", { failureRedirect: "/" }), (req, res) => {
-    res.redirect("/dashboard");
-};
+exports.callback = [
+  passport.authenticate("facebook", { failureRedirect: "/" }),
+  (req, res) => {
+    const redirect = process.env.CLIENT_REDIRECT_SUCCESS || "http://localhost:3000/paperbase";
+    res.redirect(redirect);
+  }
+];

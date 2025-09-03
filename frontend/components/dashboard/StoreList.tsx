@@ -37,29 +37,31 @@ export default function StoreList({ currentTab = 0 }: StoreListProps) {
               <Table stickyHeader aria-label="店家列表">
                 <TableHead>
                   <TableRow>
-                    <TableCell>店家編號</TableCell>
-                    <TableCell>店家名稱</TableCell>
-                    <TableCell>類型</TableCell>
-                    <TableCell>分店</TableCell>
-                    <TableCell>地址</TableCell>
-                    <TableCell>電話</TableCell>
-                    <TableCell>狀態</TableCell>
-                    <TableCell>操作</TableCell>
+                    <TableCell align="center">店家編號</TableCell>
+                    <TableCell align="center">店家名稱</TableCell>
+                    <TableCell align="center">類型</TableCell>
+                    <TableCell align="center">分店</TableCell>
+                    <TableCell align="center">地址</TableCell>
+                    <TableCell align="center">電話</TableCell>
+                    <TableCell align="center">狀態</TableCell>
+                    <TableCell align="center">操作</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {mockStores.map((store) => (
                     <TableRow hover key={store.id}>
-                      <TableCell>{store.id}</TableCell>
-                      <TableCell>{store.name}</TableCell>
-                      <TableCell>{store.type}</TableCell>
-                      <TableCell>{store.branch}</TableCell>
-                      <TableCell>{store.address}</TableCell>
-                      <TableCell>{store.phone}</TableCell>
-                      <TableCell>{store.status}</TableCell>
-                      <TableCell>
-                        <Button size="small" color="primary">編輯</Button>
-                        <Button size="small" color="secondary">查看</Button>
+                      <TableCell align="center">{store.id}</TableCell>
+                      <TableCell align="center">{store.name}</TableCell>
+                      <TableCell align="center">{store.type}</TableCell>
+                      <TableCell align="center">{store.branch}</TableCell>
+                      <TableCell align="center">{store.address}</TableCell>
+                      <TableCell align="center">{store.phone}</TableCell>
+                      <TableCell align="center">{store.status}</TableCell>
+                      <TableCell align="center">
+                        <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center' }}>
+                          <Button size="small" color="primary">編輯</Button>
+                          <Button size="small" color="secondary">查看</Button>
+                        </Box>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -91,52 +93,7 @@ export default function StoreList({ currentTab = 0 }: StoreListProps) {
           </Paper>
         );
 
-      case 2: // 店家統計
-        return (
-          <Paper sx={{ p: 3 }}>
-            <Typography variant="h6" gutterBottom>
-              店家統計
-            </Typography>
-            <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
-              <Box sx={{ textAlign: 'center', p: 2, bgcolor: 'primary.light', borderRadius: 2, minWidth: 120 }}>
-                <Typography variant="h4" color="primary.contrastText">
-                  {mockStores.length}
-                </Typography>
-                <Typography variant="body2" color="primary.contrastText">
-                  總店家數
-                </Typography>
-              </Box>
-              <Box sx={{ textAlign: 'center', p: 2, bgcolor: 'success.light', borderRadius: 2, minWidth: 120 }}>
-                <Typography variant="h4" color="success.contrastText">
-                  {mockStores.filter(s => s.status === '營業中').length}
-                </Typography>
-                <Typography variant="body2" color="success.contrastText">
-                  營業中
-                </Typography>
-              </Box>
-              <Box sx={{ textAlign: 'center', p: 2, bgcolor: 'info.light', borderRadius: 2, minWidth: 120 }}>
-                <Typography variant="h4" color="info.contrastText">
-                  {mockStores.filter(s => s.type === '速食').length}
-                </Typography>
-                <Typography variant="body2" color="info.contrastText">
-                  速食店
-                </Typography>
-              </Box>
-            </Box>
-          </Paper>
-        );
-
-      case 3: // 設定
-        return (
-          <Paper sx={{ p: 3 }}>
-            <Typography variant="h6" gutterBottom>
-              店家管理設定
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              店家管理相關的系統設定選項
-            </Typography>
-          </Paper>
-        );
+      // 移除「店家統計」與「設定」
 
       default:
         return (
@@ -151,11 +108,8 @@ export default function StoreList({ currentTab = 0 }: StoreListProps) {
 
   return (
     <Box sx={{ p: 3 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-        <Typography variant="h4" gutterBottom>
-          店家管理
-        </Typography>
-        {currentTab === 0 && (
+      {currentTab === 0 && (
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
           <Button 
             variant="contained" 
             startIcon={<AddIcon />}
@@ -163,9 +117,8 @@ export default function StoreList({ currentTab = 0 }: StoreListProps) {
           >
             新增店家
           </Button>
-        )}
-      </Box>
-      
+        </Box>
+      )}
       {renderTabContent()}
     </Box>
   );

@@ -79,13 +79,13 @@ export default function BusinessHours({ currentTab = 0 }: BusinessHoursProps) {
               <Table stickyHeader aria-label="營業時間列表">
                 <TableHead>
                   <TableRow>
-                    <TableCell>店家名稱</TableCell>
-                    <TableCell>星期</TableCell>
-                    <TableCell>開始時間</TableCell>
-                    <TableCell>結束時間</TableCell>
-                    <TableCell>營業時數</TableCell>
-                    <TableCell>狀態</TableCell>
-                    <TableCell>操作</TableCell>
+                    <TableCell align="center">店家名稱</TableCell>
+                    <TableCell align="center">星期</TableCell>
+                    <TableCell align="center">開始時間</TableCell>
+                    <TableCell align="center">結束時間</TableCell>
+                    <TableCell align="center">營業時數</TableCell>
+                    <TableCell align="center">狀態</TableCell>
+                    <TableCell align="center">操作</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -96,26 +96,24 @@ export default function BusinessHours({ currentTab = 0 }: BusinessHoursProps) {
                     
                     return (
                       <TableRow hover key={hours.id}>
-                        <TableCell>{hours.storeName}</TableCell>
-                        <TableCell>{hours.day}</TableCell>
-                        <TableCell>{hours.openTime}</TableCell>
-                        <TableCell>{hours.closeTime}</TableCell>
-                        <TableCell>{duration} 小時</TableCell>
-                        <TableCell>
+                        <TableCell align="center">{hours.storeName}</TableCell>
+                        <TableCell align="center">{hours.day}</TableCell>
+                        <TableCell align="center">{hours.openTime}</TableCell>
+                        <TableCell align="center">{hours.closeTime}</TableCell>
+                        <TableCell align="center">{duration} 小時</TableCell>
+                        <TableCell align="center">
                           <Chip 
                             label={hours.status} 
                             color={hours.status === '營業中' ? 'success' : 'default'}
                             size="small"
                           />
                         </TableCell>
-                        <TableCell>
-                          <Button 
-                            size="small" 
-                            color="primary"
-                            onClick={() => handleEditHours(hours.id)}
-                          >
-                            編輯
-                          </Button>
+                        <TableCell align="center">
+                          <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center' }}>
+                            <Button size="small" color="primary" onClick={() => handleEditHours(hours.id)}>
+                              編輯
+                            </Button>
+                          </Box>
                         </TableCell>
                       </TableRow>
                     );
@@ -182,11 +180,8 @@ export default function BusinessHours({ currentTab = 0 }: BusinessHoursProps) {
 
   return (
     <Box sx={{ p: 3 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-        <Typography variant="h4" gutterBottom>
-          營業時間管理
-        </Typography>
-        {currentTab === 0 && (
+      {currentTab === 0 && (
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
           <Button 
             variant="contained" 
             startIcon={<AccessTimeIcon />}
@@ -194,9 +189,8 @@ export default function BusinessHours({ currentTab = 0 }: BusinessHoursProps) {
           >
             批量編輯
           </Button>
-        )}
-      </Box>
-      
+        </Box>
+      )}
       {renderTabContent()}
     </Box>
   );

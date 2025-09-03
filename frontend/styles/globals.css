@@ -3,14 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
+  --background: #F4F4F5;
   --foreground: #171717;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #F4F4F5;
+    --foreground: #171717;
   }
 }
 
@@ -18,4 +18,9 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* 隱藏 Next.js 開發工具浮動按鈕（左下角 N）*/
+#nextjs-devtools, [data-nextjs-devtools] {
+  display: none !important;
 }

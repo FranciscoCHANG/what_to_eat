@@ -99,29 +99,7 @@ export default function MenuManagement({ currentTab = 0 }: MenuManagementProps) 
           </Box>
         );
 
-      case 2: // 分類管理
-        return (
-          <Box>
-            <Typography variant="h6" gutterBottom>
-              菜單分類管理
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              管理菜單分類和標籤
-            </Typography>
-          </Box>
-        );
-
-      case 3: // 價格設定
-        return (
-          <Box>
-            <Typography variant="h6" gutterBottom>
-              價格設定
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              設定菜單項目價格和折扣
-            </Typography>
-          </Box>
-        );
+      // 移除「分類管理」與「價格設定」
 
       default:
         return (
@@ -136,11 +114,8 @@ export default function MenuManagement({ currentTab = 0 }: MenuManagementProps) 
 
   return (
     <Box sx={{ p: 3 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-        <Typography variant="h4" gutterBottom>
-          菜單管理
-        </Typography>
-        {currentTab === 0 && (
+      {currentTab === 0 && (
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
           <Button 
             variant="contained" 
             startIcon={<AddIcon />}
@@ -148,9 +123,8 @@ export default function MenuManagement({ currentTab = 0 }: MenuManagementProps) 
           >
             新增菜單
           </Button>
-        )}
-      </Box>
-      
+        </Box>
+      )}
       {renderTabContent()}
     </Box>
   );

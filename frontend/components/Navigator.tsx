@@ -7,38 +7,20 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import HomeIcon from '@mui/icons-material/Home';
+import Collapse from '@mui/material/Collapse';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 import PeopleIcon from '@mui/icons-material/People';
 import StoreIcon from '@mui/icons-material/Store';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import SettingsIcon from '@mui/icons-material/Settings';
-import AnalyticsIcon from '@mui/icons-material/Analytics';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 import Typography from '@mui/material/Typography';
 
-const categories = [
-  {
-    id: '餐廳管理',
-    children: [
-      {
-        id: '店家列表',
-        icon: <StoreIcon />,
-        active: true,
-      },
-      { id: '菜單管理', icon: <MenuBookIcon /> },
-      { id: '營業時間', icon: <AccessTimeIcon /> },
-      { id: '使用者管理', icon: <PeopleIcon /> },
-    ],
-  },
-  {
-    id: '系統功能',
-    children: [
-      { id: '資料分析', icon: <AnalyticsIcon /> },
-      { id: '系統設定', icon: <SettingsIcon /> },
-      { id: '推薦系統', icon: <RestaurantIcon /> },
-    ],
-  },
+const restaurantChildren = [
+  { id: '店家列表', icon: <StoreIcon />, active: true },
+  { id: '菜單管理', icon: <MenuBookIcon /> },
+  { id: '營業時間', icon: <AccessTimeIcon /> },
 ];
 
 const item = {
@@ -79,7 +61,8 @@ interface NavigatorProps extends DrawerProps {
 
 export default function Navigator(props: NavigatorProps) {
   const { onNavigate, ...other } = props;
-  const [selectedItem, setSelectedItem] = React.useState('專案概覽');
+  const [selectedItem, setSelectedItem] = React.useState('使用者管理');
+  const [restaurantOpen, setRestaurantOpen] = React.useState(true);
 
   const handleItemClick = (itemId: string) => {
     setSelectedItem(itemId);
@@ -101,64 +84,76 @@ export default function Navigator(props: NavigatorProps) {
             </Typography>
           </Box>
         </ListItem>
-        <ListItem disablePadding>
+        {/* 獨立大卡：使用者管理 */}
+        <ListItem sx={{ px: 2, py: 1.5 }} disablePadding>
           <ListItemButton
+            onClick={() => handleItemClick('使用者管理')}
             sx={{
-              ...item,
-              ...itemCategory,
+              mx: 2,
+              mt: 0,
+              mb: '15px',
+              borderRadius: 3,
+              bgcolor: 'rgba(255, 152, 0, 0.06)',
+              '&:hover': { bgcolor: 'rgba(255, 152, 0, 0.12)' },
+              boxShadow: '0 1px 3px rgba(255,152,0,0.08)'
             }}
-            selected={selectedItem === '專案概覽'}
-            onClick={() => handleItemClick('專案概覽')}
           >
-            <ListItemIcon>
-              <HomeIcon sx={{ color: selectedItem === '專案概覽' ? '#F57C00' : 'inherit' }} />
+            <ListItemIcon sx={{ color: '#8D6E63' }}>
+              <PeopleIcon />
             </ListItemIcon>
-            <ListItemText 
-              primary="專案概覽"
-              primaryTypographyProps={{
-                fontWeight: selectedItem === '專案概覽' ? 600 : 400,
-              }}
+            <ListItemText
+              primary="使用者管理"
+              primaryTypographyProps={{ fontWeight: 500 }}
             />
           </ListItemButton>
         </ListItem>
-        {categories.map(({ id, children }) => (
-          <Box key={id}>
-            <ListItem
-              sx={{
-                ...itemCategory,
-                cursor: 'default',
-                '&:hover': {
-                  bgcolor: 'transparent',
-                },
-              }}
-            >
-              <ListItemText primary={id} />
+
+        {/* 可折疊大卡：餐廳管理 */}
+        <ListItem sx={{ px: 2, pt: 0 }} disablePadding>
+          <ListItemButton
+            onClick={() => setRestaurantOpen(!restaurantOpen)}
+            sx={{
+              mx: 2,
+              my: 0,
+              borderRadius: 3,
+              bgcolor: 'rgba(255, 152, 0, 0.06)',
+              '&:hover': { bgcolor: 'rgba(255, 152, 0, 0.12)' },
+              boxShadow: '0 1px 3px rgba(255,152,0,0.08)'
+            }}
+          >
+            <ListItemIcon sx={{ color: '#8D6E63' }}>
+              <StoreIcon />
+            </ListItemIcon>
+            <ListItemText primary="餐廳管理" primaryTypographyProps={{ fontWeight: 700 }} />
+            {restaurantOpen ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+        </ListItem>
+        <Collapse in={restaurantOpen} timeout="auto" unmountOnExit>
+          {restaurantChildren.map(({ id: childId, icon }) => (
+            <ListItem disablePadding key={childId}>
+              <ListItemButton
+                sx={{
+                  ...item,
+                  mx: 4,
+                  my: 0.5,
+                  borderRadius: 2,
+                  bgcolor: selectedItem === childId ? 'rgba(255, 152, 0, 0.12)' : 'transparent',
+                }}
+                selected={selectedItem === childId}
+                onClick={() => handleItemClick(childId)}
+              >
+                <ListItemIcon sx={{ color: selectedItem === childId ? '#F57C00' : 'inherit' }}>
+                  {icon}
+                </ListItemIcon>
+                <ListItemText
+                  primary={childId}
+                  primaryTypographyProps={{ fontWeight: selectedItem === childId ? 600 : 400 }}
+                />
+              </ListItemButton>
             </ListItem>
-            {children.map(({ id: childId, icon }) => (
-              <ListItem disablePadding key={childId}>
-                <ListItemButton
-                  sx={{
-                    ...item,
-                    pl: 4,
-                  }}
-                  selected={selectedItem === childId}
-                  onClick={() => handleItemClick(childId)}
-                >
-                  <ListItemIcon sx={{ color: selectedItem === childId ? '#F57C00' : 'inherit' }}>
-                    {icon}
-                  </ListItemIcon>
-                  <ListItemText 
-                    primary={childId} 
-                    primaryTypographyProps={{
-                      fontWeight: selectedItem === childId ? 600 : 400,
-                    }}
-                  />
-                </ListItemButton>
-              </ListItem>
-            ))}
-            <Divider sx={{ mt: 1, mb: 1, opacity: 0.3 }} />
-          </Box>
-        ))}
+          ))}
+        </Collapse>
+        <Divider sx={{ mt: 1, mb: 1, opacity: 0.3 }} />
       </List>
     </Drawer>
   );

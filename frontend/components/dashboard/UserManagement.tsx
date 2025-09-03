@@ -125,43 +125,43 @@ export default function UserManagement({ currentTab = 0 }: UserManagementProps) 
               <Table stickyHeader aria-label="使用者列表">
                 <TableHead>
                   <TableRow>
-                    <TableCell>使用者</TableCell>
-                    <TableCell>電子郵件</TableCell>
-                    <TableCell>電話</TableCell>
-                    <TableCell>角色</TableCell>
-                    <TableCell>狀態</TableCell>
-                    <TableCell>最後登入</TableCell>
-                    <TableCell>操作</TableCell>
+                    <TableCell align="center" sx={{ color: 'text.secondary', fontWeight: 600 }}>使用者</TableCell>
+                    <TableCell align="center" sx={{ color: 'text.secondary', fontWeight: 600 }}>電子郵件</TableCell>
+                    <TableCell align="center" sx={{ color: 'text.secondary', fontWeight: 600 }}>電話</TableCell>
+                    <TableCell align="center" sx={{ color: 'text.secondary', fontWeight: 600 }}>角色</TableCell>
+                    <TableCell align="center" sx={{ color: 'text.secondary', fontWeight: 600 }}>狀態</TableCell>
+                    <TableCell align="center" sx={{ color: 'text.secondary', fontWeight: 600 }}>最後登入</TableCell>
+                    <TableCell align="center" sx={{ color: 'text.secondary', fontWeight: 600 }}>操作</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {filteredUsers.map((user) => (
                     <TableRow hover key={user.id}>
-                      <TableCell>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                      <TableCell align="center">
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'center' }}>
                           <Avatar src={user.avatar} alt={user.name} sx={{ width: 32, height: 32 }} />
                           <Typography variant="body2">{user.name}</Typography>
                         </Box>
                       </TableCell>
-                      <TableCell>{user.email}</TableCell>
-                      <TableCell>{user.phone}</TableCell>
-                      <TableCell>
+                      <TableCell align="center">{user.email}</TableCell>
+                      <TableCell align="center">{user.phone}</TableCell>
+                      <TableCell align="center">
                         <Chip 
                           label={user.role} 
                           size="small" 
                           color={user.role === '管理員' ? 'primary' : 'default'}
                         />
                       </TableCell>
-                      <TableCell>
+                      <TableCell align="center">
                         <Chip 
                           label={user.status} 
                           size="small" 
                           color={user.status === '啟用' ? 'success' : 'error'}
                         />
                       </TableCell>
-                      <TableCell>{user.lastLogin}</TableCell>
-                      <TableCell>
-                        <Box sx={{ display: 'flex', gap: 1 }}>
+                      <TableCell align="center">{user.lastLogin}</TableCell>
+                      <TableCell align="center">
+                        <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center' }}>
                           <Tooltip title="編輯">
                             <IconButton 
                               size="small" 
@@ -200,10 +200,7 @@ export default function UserManagement({ currentTab = 0 }: UserManagementProps) 
 
       case 1: // 新增使用者
         return (
-          <Paper sx={{ p: 3 }}>
-            <Typography variant="h6" gutterBottom>
-              新增使用者
-            </Typography>
+          <Paper sx={{ p: 3, pt: 5 }}>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -250,58 +247,38 @@ export default function UserManagement({ currentTab = 0 }: UserManagementProps) 
 
       case 2: // 權限管理
         return (
-          <Paper sx={{ p: 3 }}>
-            <Typography variant="h6" gutterBottom>
-              權限管理
-            </Typography>
+          <Paper sx={{ p: 3, pt: 5, pb: 5 }}>
+            
+
+            {/* 合併為單一卡片，分段呈現三種身分 */}
             <Grid container spacing={3}>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12}>
                 <Card>
                   <CardContent>
-                    <Typography variant="h6" gutterBottom>
-                      管理員權限
-                    </Typography>
-                    <FormControlLabel
-                      control={<Switch defaultChecked />}
-                      label="查看所有使用者"
-                    />
-                    <FormControlLabel
-                      control={<Switch defaultChecked />}
-                      label="新增/編輯使用者"
-                    />
-                    <FormControlLabel
-                      control={<Switch defaultChecked />}
-                      label="刪除使用者"
-                    />
-                    <FormControlLabel
-                      control={<Switch defaultChecked />}
-                      label="系統設定"
-                    />
-                  </CardContent>
-                </Card>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h6" gutterBottom>
-                      一般使用者權限
-                    </Typography>
-                    <FormControlLabel
-                      control={<Switch defaultChecked />}
-                      label="查看自己的資料"
-                    />
-                    <FormControlLabel
-                      control={<Switch />}
-                      label="編輯自己的資料"
-                    />
-                    <FormControlLabel
-                      control={<Switch />}
-                      label="查看基本統計"
-                    />
-                    <FormControlLabel
-                      control={<Switch />}
-                      label="系統設定"
-                    />
+                    <Typography variant="h6" gutterBottom>系統管理者</Typography>
+                    <FormControlLabel control={<Switch defaultChecked />} label="查看所有使用者" />
+                    <FormControlLabel control={<Switch defaultChecked />} label="新增/編輯成員" />
+                    <FormControlLabel control={<Switch defaultChecked />} label="新增/編輯/刪除店家" />
+                    <FormControlLabel control={<Switch defaultChecked />} label="查看自己的資料" />
+                    <FormControlLabel control={<Switch defaultChecked />} label="編輯自己的資料" />
+
+                    <Box sx={{ my: 2, borderTop: '1px solid rgba(0,0,0,0.08)' }} />
+
+                    <Typography variant="h6" gutterBottom>店家管理者</Typography>
+                    <FormControlLabel control={<Switch />} label="查看所有使用者" />
+                    <FormControlLabel control={<Switch defaultChecked />} label="新增/編輯成員" />
+                    <FormControlLabel control={<Switch defaultChecked />} label="新增/編輯/刪除店家" />
+                    <FormControlLabel control={<Switch defaultChecked />} label="查看自己的資料" />
+                    <FormControlLabel control={<Switch defaultChecked />} label="編輯自己的資料" />
+
+                    <Box sx={{ my: 2, borderTop: '1px solid rgba(0,0,0,0.08)' }} />
+
+                    <Typography variant="h6" gutterBottom>一般使用者／訪客</Typography>
+                    <FormControlLabel control={<Switch />} label="查看所有使用者" />
+                    <FormControlLabel control={<Switch />} label="新增/編輯成員" />
+                    <FormControlLabel control={<Switch />} label="新增/編輯/刪除店家" />
+                    <FormControlLabel control={<Switch defaultChecked />} label="查看自己的資料" />
+                    <FormControlLabel control={<Switch />} label="編輯自己的資料" />
                   </CardContent>
                 </Card>
               </Grid>
@@ -311,10 +288,7 @@ export default function UserManagement({ currentTab = 0 }: UserManagementProps) 
 
       case 3: // 登入記錄
         return (
-          <Paper sx={{ p: 3 }}>
-            <Typography variant="h6" gutterBottom>
-              登入記錄
-            </Typography>
+          <Paper sx={{ p: 3, pt: 5, pb: 5 }}>
             <TableContainer>
               <Table>
                 <TableHead>
@@ -364,11 +338,8 @@ export default function UserManagement({ currentTab = 0 }: UserManagementProps) 
 
   return (
     <Box sx={{ p: 3 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-        <Typography variant="h4" gutterBottom>
-          使用者管理
-        </Typography>
-        {currentTab === 0 && (
+      {currentTab === 0 && (
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
           <Button 
             variant="contained" 
             startIcon={<AddIcon />}
@@ -376,8 +347,8 @@ export default function UserManagement({ currentTab = 0 }: UserManagementProps) 
           >
             新增使用者
           </Button>
-        )}
-      </Box>
+        </Box>
+      )}
       
       {renderTabContent()}
     </Box>

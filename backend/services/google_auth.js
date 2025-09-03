@@ -8,7 +8,8 @@ exports.login = passport.authenticate("google", { scope: ["profile", "email"] })
 exports.callback = [
     passport.authenticate("google", { failureRedirect: "/" }),
     (req, res) => {
-        // 成功登入後，重定向到 dashboard
-        res.redirect("/dashboard");
+        // 成功登入後，重定向到前端頁面
+        const redirect = process.env.CLIENT_REDIRECT_SUCCESS || "http://localhost:3000/paperbase";
+        res.redirect(redirect);
     }
 ];

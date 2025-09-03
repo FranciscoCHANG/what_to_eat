@@ -1,6 +1,10 @@
-import Image from "next/image";
 import localFont from "next/font/local";
 import Link from "next/link";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import styles from "../styles/Home.module.css";
+import { FaGoogle, FaFacebookF } from "react-icons/fa6";
+import { SiLine } from "react-icons/si";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -14,71 +18,36 @@ const geistMono = localFont({
 });
 
 export default function Home() {
-
+  const router = useRouter();
+  const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api";
   return (
-    <div
-      className={`${geistSans.variable} ${geistMono.variable} grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
-    >
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <Link
-            href="/paperbase"
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-          >
-            <Image
-              className="dark:invert"
-              src="/file.svg"
-              alt="File icon"
-              width={16}
-              height={16}
-            />
-            Learn
-          </Link>
-          
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Google
-          </a>
+    <div className={`${geistSans.variable} ${geistMono.variable} ${styles.homeRoot} font-[family-name:var(--font-geist-sans)]`}>
+      <main className={`${styles.homeMain} -mt-8 sm:-mt-14`}>
+        {/* LOGO 與重疊圓點容器 */}
+        <div className={styles.logoWrap}>
+          <Image src="/logo.png" alt="What To Eat Logo" width={520} height={220} priority />
 
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            target="_blank"
-            rel="noopener noreferrer"
+          {/* 三個圓點重疊到 LOGO 下緣 */}
+          <div className={styles.loginDots}>
+            <a aria-label="Google 登入" title="以 Google 登入" href={`${apiBase}/auth/google`} className={styles.dotLink}>
+              <FaGoogle size={18} color="#000" />
+            </a>
+            <a aria-label="Facebook 登入" title="以 Facebook 登入" href={`${apiBase}/auth/facebook`} className={styles.dotLink}>
+              <FaFacebookF size={18} color="#000" />
+            </a>
+            <a aria-label="LINE 登入" title="以 LINE 登入" href={`${apiBase}/auth/line`} className={styles.dotLink}>
+              <SiLine size={18} color="#000" />
+            </a>
+          </div>
+        </div>
+        {/* 訪客登入 CTA */}
+        <div className={styles.ctaWrap}>
+          <button
+            onClick={() => { try { localStorage.setItem("wte_guest", "1"); } catch (e) {} router.push("/paperbase"); }}
+            className={styles.ctaButton}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Facebook
-          </a>
-
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            LINE
-          </a>
+            以訪客身分登入
+          </button>
         </div>
       </main>
     </div>

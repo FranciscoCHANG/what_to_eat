@@ -19,8 +19,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // 配置CORS
+const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || 'http://localhost:3000';
 app.use(cors({
-    origin: 'http://localhost:3000',  // 根據你的前端應用配置
+    origin: FRONTEND_ORIGIN,
     credentials: true
 }));
 

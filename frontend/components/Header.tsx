@@ -1,9 +1,7 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import Box from "@mui/material/Box";
-import HelpIcon from '@mui/icons-material/Help';
 import IconButton from '@mui/material/IconButton';
 import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -13,7 +11,6 @@ import Tabs from '@mui/material/Tabs';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import SettingsIcon from '@mui/icons-material/Settings';
 
 const lightColor = 'rgba(142, 110, 99, 0.6)';
 
@@ -39,18 +36,7 @@ export default function Header(props: HeaderProps) {
     setTabValue(0);
   }, [currentSection]);
 
-  const handleWebSetup = () => {
-    console.log('網站設定按鈕被點擊');
-    if (onNavigate) {
-      onNavigate('系統設定');
-    }
-  };
-
-  const handleHelp = () => {
-    console.log('幫助按鈕被點擊');
-    // 這裡可以添加幫助功能，例如打開幫助對話框
-    window.open('/help', '_blank');
-  };
+  // 移除系統設定與幫助相關行為
 
   const handleNotifications = () => {
     console.log('通知按鈕被點擊');
@@ -105,23 +91,18 @@ export default function Header(props: HeaderProps) {
       case '店家列表':
         return [
           { label: '所有店家', value: 0 },
-          { label: '新增店家', value: 1 },
-          { label: '店家統計', value: 2 },
-          { label: '設定', value: 3 }
+          { label: '新增店家', value: 1 }
         ];
       case '菜單管理':
         return [
           { label: '菜單列表', value: 0 },
-          { label: '新增菜單', value: 1 },
-          { label: '分類管理', value: 2 },
-          { label: '價格設定', value: 3 }
+          { label: '新增菜單', value: 1 }
         ];
       case '營業時間':
         return [
           { label: '時間表', value: 0 },
           { label: '批量設定', value: 1 },
-          { label: '特殊日期', value: 2 },
-          { label: '匯出設定', value: 3 }
+          { label: '特殊日期', value: 2 }
         ];
       case '使用者管理':
         return [
@@ -199,19 +180,7 @@ export default function Header(props: HeaderProps) {
             >
               前往首頁
             </Link>
-            <Tooltip title="通知 • 點擊查看分析">
-              <IconButton 
-                color="inherit" 
-                aria-label="通知" 
-                onClick={handleNotifications}
-                sx={{ 
-                  color: '#8D6E63',
-                  '&:hover': { backgroundColor: 'rgba(255, 152, 0, 0.04)' }
-                }}
-              >
-                <NotificationsIcon />
-              </IconButton>
-            </Tooltip>
+            {/* 移除右上角通知圖示與功能 */}
             <Tooltip title="使用者管理">
               <IconButton 
                 color="inherit" 
@@ -251,37 +220,7 @@ export default function Header(props: HeaderProps) {
             >
               {getPageTitle()}
             </Typography>
-            <Button
-              sx={{ 
-                borderColor: lightColor,
-                color: lightColor,
-                '&:hover': {
-                  borderColor: '#F57C00',
-                  color: '#F57C00',
-                }
-              }}
-              variant="outlined"
-              size="small"
-              startIcon={<SettingsIcon />}
-              onClick={handleWebSetup}
-            >
-              系統設定
-            </Button>
-            <Tooltip title="幫助">
-              <IconButton 
-                color="inherit" 
-                onClick={handleHelp}
-                sx={{ 
-                  color: lightColor,
-                  '&:hover': { 
-                    backgroundColor: 'rgba(255, 152, 0, 0.04)',
-                    color: '#F57C00'
-                  }
-                }}
-              >
-                <HelpIcon />
-              </IconButton>
-            </Tooltip>
+            {/* 移除系統設定按鈕與問號幫助圖示 */}
           </Box>
         </Toolbar>
       </AppBar>

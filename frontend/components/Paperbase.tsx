@@ -13,10 +13,8 @@ import StoreList from './dashboard/StoreList';
 import MenuManagement from './dashboard/MenuManagement';
 import BusinessHours from './dashboard/BusinessHours';
 import UserManagement from './dashboard/UserManagement';
-import DataAnalytics from './dashboard/DataAnalytics';
-import SystemSettings from './dashboard/SystemSettings';
-import RecommendationSystem from './dashboard/RecommendationSystem';
-import ProjectOverview from './dashboard/ProjectOverview';
+// 已移除：資料分析、系統設定、推薦系統
+// 將專案概覽改為使用者管理
 
 function Copyright() {
   return (
@@ -279,7 +277,7 @@ const drawerWidth = 256;
 
 export default function Paperbase() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [currentSection, setCurrentSection] = React.useState('專案概覽');
+  const [currentSection, setCurrentSection] = React.useState('使用者管理');
   const [currentTab, setCurrentTab] = React.useState(0);
   const isSmUp = useMediaQuery(theme.breakpoints.up('sm'));
 
@@ -308,14 +306,10 @@ export default function Paperbase() {
         return <BusinessHours currentTab={currentTab} />;
       case '使用者管理':
         return <UserManagement currentTab={currentTab} />;
-      case '資料分析':
-        return <DataAnalytics currentTab={currentTab} />;
-      case '系統設定':
-        return <SystemSettings currentTab={currentTab} />;
-      case '推薦系統':
-        return <RecommendationSystem currentTab={currentTab} />;
+      // 移除不需要的頁面
+      // '資料分析' | '系統設定' | '推薦系統'
       case '專案概覽':
-        return <ProjectOverview currentTab={currentTab} />;
+        return <UserManagement currentTab={currentTab} />;
       default:
         return <StoreList currentTab={currentTab} />;
     }
