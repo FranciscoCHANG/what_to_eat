@@ -50,10 +50,28 @@ const Store = {
            phone = COALESCE(?, phone), 
            social_media_links = COALESCE(?, social_media_links), 
            descriptions = COALESCE(?, descriptions),
-           status = COALESCE(?, status) 
+           status = COALESCE(?, status), 
            update_at = NOW()
        WHERE store_no = ?`,
       [store_name, type, branch, address, phone, social_media_links, descriptions, status, store_no]
+    );
+    return result;
+  },
+
+  // close store
+  async closeStore(store_no) {
+    const [result] = await pool.query(
+      `UPDATE stores SET status = 'closed', update_at = NOW() WHERE store_no = ?`,
+      [store_no]
+    );
+    return result;
+  },
+
+  // reopen store
+  async reopenStore(store_no) {
+    const [result] = await pool.query(
+      `UPDATE stores SET status = 'open', update_at = NOW() WHERE store_no = ?`,
+      [store_no]
     );
     return result;
   },

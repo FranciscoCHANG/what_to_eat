@@ -3,12 +3,14 @@ What would you like to eat or drink?
 
 # what you need to install
 backend/
-    npm install express axios passport passport-google-oauth20 passport-facebook passport-line dotenv cors mysql2
+    npm install express axios passport passport-google-oauth20 passport-facebook passport-line dotenv cors mysql2 google-auth-library next-iron-session
+frontend/
+    npm install react-beautiful-dnd @mui/material @emotion/react @emotion/styled
 # 啟動
 
 - npm install 下載套件
 - npm run dev 開啟server
--  npm install react-beautiful-dnd 拖移套件
+- npm install react-beautiful-dnd 拖移套件
 - npm install @mui/material @emotion/react @emotion/styled 下載Mui套件
 - npm install next-iron-session 後端用 
 - npm install mysql2 後端用

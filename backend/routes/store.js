@@ -15,7 +15,8 @@ router.get("/", async (req, res) => {
 // 取得特定店家
 router.get("/search", async (req, res) => {
   try {
-    const store = await StoreService.getStoreByName(req.body.store_name);
+    const { store_name } = req.query;
+    const store = await StoreService.getStoreByName(String(store_name || ''));
     if (!store) return res.status(404).json({ message: "Store not found" });
     res.json(store);
   } catch (error) {
@@ -37,7 +38,7 @@ router.post("/insert", async (req, res) => {
 // update store info
 router.put("/update", async (req, res) => {
   try {
-    const { store_no, store_name, type, branch, address, phone, social_media_links, descriptions } = req.body;
+    const { store_no, store_name, type, branch, address, phone, social_media_links, descriptions, status } = req.body;
 
     if (!store_no) {
       return res.status(400).json({ message: "store_no is required" });
@@ -55,7 +56,8 @@ router.put("/update", async (req, res) => {
       address,
       phone,
       social_media_Json,
-      descriptions
+      descriptions,
+      status
     );
 
     if (result.affectedRows === 0) {

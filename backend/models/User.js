@@ -38,6 +38,15 @@ const User = {
         return result.insertId; // Return the new user's ID
     },
 
+    // to create a new user with additional fields
+    async createUserWithDetails(user_name, email, user_picture, phone, role, status) {
+        const [result] = await pool.query(
+            'INSERT INTO users (user_name, email, user_picture, phone, role, status, create_at) VALUES (?, ?, ?, ?, ?, ?, now())',
+            [user_name, email, user_picture, phone, role, status]
+        );
+        return result.insertId; // Return the new user's ID
+    },
+
     // to link a provider to an existing user
     async linkProviderToUser(user_no, provider, provider_id) {
         await pool.query(
