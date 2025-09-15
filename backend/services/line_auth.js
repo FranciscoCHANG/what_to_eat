@@ -6,9 +6,17 @@ exports.login = passport.authenticate("line");
 
 // LINE 登入回調處理
 exports.callback = [
-  passport.authenticate("line", { failureRedirect: "/" }),
+  passport.authenticate("line", { 
+    failureRedirect: "/",
+    failureMessage: true 
+  }),
   (req, res) => {
-    const redirect = process.env.CLIENT_REDIRECT_SUCCESS || "http://localhost:3000/paperbase";
-    res.redirect(redirect);
+    try {
+      const redirect = process.env.CLIENT_REDIRECT_SUCCESS || "http://localhost:3000/paperbase";
+      res.redirect(redirect);
+    } catch (err) {
+      console.error("LINE 登入回調錯誤:", err);
+      res.redirect("/?error=login_failed");
+    }
   }
 ];

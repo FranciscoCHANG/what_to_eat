@@ -74,36 +74,59 @@ passport.use(
         },
         async (accessToken, refreshToken, profile, done) => {
             try {
-                // 使用 Access Token 向 LINE OpenID Token Endpoint 請求 email
+                // 使用 Access Token 向 LINE API 請求使用者資料
                 const userInfo = await getLineUserEmail(accessToken);
 
-                // 將 email 資料加入 profile
-                profile.emails = [{ value: userInfo.email }]; // LINE 回傳的 email 格式
+                // 將 email 和圖片資料加入 profile
+                profile.emails = userInfo.email ? [{ value: userInfo.email }] : [];
+                profile.photos = userInfo.pictureUrl ? [{ value: userInfo.pictureUrl }] : [];
+                profile.displayName = userInfo.displayName || profile.displayName;
 
-                // 調用 handleAuthentication，傳入帶有 email 的 profile
+                // 調用 handleAuthentication，傳入帶有完整資料的 profile
                 handleAuthentication("line", profile.id, profile, done);
             } catch (err) {
-                console.error("Error fetching email from LINE:", err);
+                console.error("Error fetching user info from LINE:", err);
                 done(err);
             }
         }
     )
 );
 
-// 函數：使用 Access Token 取得 LINE 的 email 資料
+// 函數：使用 Access Token 取得 LINE 的使用者資料
 async function getLineUserEmail(accessToken) {
     try {
-        const response = await axios.get("https://api.line.me/oauth2/v2.1/verify", {
+        const response = await axios.get("https://api.line.me/v2/profile", {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
         });
 
-        // LINE 的 email 資料位於 token payload 中
-        const data = response.data;
-        return { email: data.email }; // 回傳 email 資料
+        // LINE 的 email 資料需要額外請求
+        const profile = response.data;
+        
+        // 嘗試獲取 email（需要額外的 API 調用）
+        try {
+            const emailResponse = await axios.get("https://api.line.me/oauth2/v2.1/userinfo", {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            return { 
+                email: emailResponse.data.email || null,
+                displayName: profile.displayName,
+                pictureUrl: profile.pictureUrl
+            };
+        } catch (emailErr) {
+            // 如果無法獲取 email，至少回傳基本資料
+            console.warn("無法獲取 LINE email:", emailErr.message);
+            return { 
+                email: null,
+                displayName: profile.displayName,
+                pictureUrl: profile.pictureUrl
+            };
+        }
     } catch (err) {
-        console.error("Error fetching LINE email:", err);
+        console.error("Error fetching LINE profile:", err);
         throw err;
     }
 }
